@@ -1,0 +1,33 @@
+on place:
+    if "%event-block%" contains " shulker box":
+        send "&aBu shulker artık korunuyor &e(&f%x-coordinate of event-block%, %y-coordinate of event-block%, %z-coordinate of event-block%&e)"
+        set {shulkerKilit::%location of event-block%} to player's display name
+ 
+on break:
+    if "%event-block%" contains " shulker box":
+        if player is op:
+            send "&f&2%{shulkerKilit::%location of event-block%}% &aadlı oyuncunun shulker'ını kırdın &e(&f%x-coordinate of event-block%, %y-coordinate of event-block%, %z-coordinate of event-block%&e)"
+            clear {shulkerKilit::%location of event-block%}
+            stop
+        if {shulkerKilit::%location of event-block%} = player's display name:
+            send "&aShulker korumasını kaldırdın &e(&f%x-coordinate of event-block%, %y-coordinate of event-block%, %z-coordinate of event-block%&e)"
+            clear {shulkerKilit::%location of event-block%}
+            stop
+        else:
+            cancel event
+            send "&4Hata &7> &fBu shulker &e%{shulkerKilit::%location of event-block%}% &ftarafından koruma altında!"
+            execute console command "minecraft:kick %player% §cBu shulker sana ait değil!"
+            stop
+ 
+on right click:
+    if "%event-block%" contains " shulker box":
+        if player is op:
+            send "§x§f§b§0§0§0§0C§x§f§b§1§1§0§4a§x§f§b§2§2§0§7p§x§f§c§3§3§0§be§x§f§c§4§4§0§ex§x§f§c§5§5§1§2N§x§f§c§6§6§1§5e§x§f§c§7§7§1§9t§x§f§c§8§8§1§cw§x§f§d§9§9§2§0o§x§f§d§a§a§2§3r§x§f§d§b§b§2§7k &x&4&b&4&b&4&9▶&x&F&F&D&0&A&9 %{shulkerKilit::%location of event-block%}%&x&f&d&a&a&5&5 adlı oyuncunun shulker kutusu açıldı."
+            stop
+        if {shulkerKilit::%location of event-block%} = player's display name:
+            stop
+        else:
+            cancel event
+            send "&4Hata &7> &fBu shulker &e%{shulkerKilit::%location of event-block%}% &ftarafından koruma altında!"
+            execute console command "minecraft:kick %player% §cBu shulker sana ait değil!"
+            stop
